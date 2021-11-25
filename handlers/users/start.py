@@ -43,7 +43,7 @@ def enter_age(message: types.Message):
             bot.register_next_step_handler(msg, enter_age)
             return
         elif age.isdigit():
-            if int(age) >= 2 and int(age) <= 102:
+            if (int(age) >= 2 and int(age) <= 102):
                 user = user_dict[message.chat.id]
                 user.age = int(age)
                 msg = bot.send_message(message.chat.id, "Обери на клавіатурі свою стать", reply_markup=markup_sex)
@@ -77,3 +77,7 @@ def enter_sex(message: types.Message):
     else:
         msg = bot.send_message(message.chat.id, "Введіть свій вік", reply_markup=markup_back)
         bot.register_next_step_handler(msg, enter_age)
+
+@bot.edited_message_handler(content_types=['text'])
+def check_new_info(message: types.Message):
+    bot.reply_to(message, "Что ты тут уже редактируешь, руки прочь!")
